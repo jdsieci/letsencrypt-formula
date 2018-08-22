@@ -1,4 +1,4 @@
 RedHat:
   pkgs:
     - python2-certbot-apache
-  service: certbot-renew.service
+  service: certbot-renew.timer
