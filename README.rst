@@ -4,6 +4,8 @@ letsencrypt-formula
 
 Creates certificates and manages renewal using the letsencrypt service.
 
+.. image:: https://travis-ci.org/saltstack-formulas/letsencrypt-formula.svg?branch=master
+
 .. note::
 
     See the full `Salt Formulas installation and usage instructions
@@ -54,3 +56,4 @@ Manages /etc/letsencrypt/cli.ini config file.
 
 Creates a certificate with the domains in each domain set (letsencrypt:domainsets in pillar). Letsencrypt uses a relatively short validity of 90 days.
 Therefore, a cron job for automatic renewal every 60 days is installed for each domain set as well.
+

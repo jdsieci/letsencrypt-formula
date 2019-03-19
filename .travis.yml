@@ -5,7 +5,15 @@ language: ruby
 services:
   - docker
 
+env:
+  matrix:
+    - INSTANCE=git-ubuntu-1604
+    - INSTANCE=git-ubuntu-1804
+    - INSTANCE=git-centos-7
+    - INSTANCE=deb-debian-9
+    - INSTANCE=rpm-centos-7
+
 before_install:
   - bundle install
 
-script: bundle exec kitchen verify
+script: bundle exec kitchen verify $INSTANCE

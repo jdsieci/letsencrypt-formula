@@ -2,22 +2,13 @@
 {% from "letsencrypt/map.jinja" import letsencrypt with context %}
 COMMON_NAME="$1"
 
-JOINED=""
-for DOMAIN in "$@"
-do
-    JOINED+=" -d $DOMAIN"
-done
-
-if ! /usr/local/bin/check_letsencrypt_cert.sh "$@" > /dev/null
-then
-    {{ letsencrypt.cli_install_dir }}/letsencrypt-auto certonly $JOINED --non-interactive || exit 1
-    cat /etc/letsencrypt/live/${COMMON_NAME}/fullchain.pem \
-        /etc/letsencrypt/live/${COMMON_NAME}/privkey.pem \
-        > /etc/letsencrypt/live/${COMMON_NAME}/fullchain-privkey.pem || exit 1
-    chmod 600 /etc/letsencrypt/live/${COMMON_NAME}/fullchain-privkey.pem || exit 1
-    {%- if letsencrypt.post_renew.cmds %}
-    {%- for cmd in letsencrypt.post_renew.cmds %}
+{{ letsencrypt.cli_install_dir }}/letsencrypt-auto renew --non-interactive || exit 1
+  cat {{ letsencrypt.config_dir.path }}/live/${COMMON_NAME}/fullchain.pem \
+  {{ letsencrypt.config_dir.path }}/live/${COMMON_NAME}/privkey.pem \
+  > {{ letsencrypt.config_dir.path }}/live/${COMMON_NAME}/fullchain-privkey.pem || exit 1
+  chmod 600 {{ letsencrypt.config_dir.path }}/live/${COMMON_NAME}/fullchain-privkey.pem || exit 1
+{%- if letsencrypt.post_renew.cmds %}
+  {%- for cmd in letsencrypt.post_renew.cmds %}
     {{ cmd }}
-    {%- endfor %}
-    {%- endif %}
-fi
+  {%- endfor %}
+{%- endif %}
