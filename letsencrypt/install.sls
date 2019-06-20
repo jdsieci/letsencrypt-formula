@@ -5,7 +5,7 @@
 letsencrypt-client:
   {% if letsencrypt.use_package %}
   pkg.installed:
-    - pkgs: {{ letsencrypt.pkgs }}
+    - pkgs: {{ letsencrypt.pkgs | json }}
   {% else %}
   pkg.installed:
     - name: git
