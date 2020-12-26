@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # vim: ft=yaml
+---
 letsencrypt:
   # Install using packages instead of git
   use_package: true
@@ -14,13 +15,29 @@ letsencrypt:
   # have specific version of certbot you can enable it. The version value
   # should match a certbot/certbot branch.
   version: 0.30.x
-  config: |
-    server = https://acme-v01.api.letsencrypt.org/directory
-    email = webmaster@example.com
-    authenticator = webroot
-    webroot-path = /var/lib/www
-    agree-tos = True
-    renew-by-default = True
+  # Subcommand used for certificates' first generation cmd ( run | certonly | renew )
+  create_init_cert_subcmd: certonly
+  # Any parameter from the cli can be specified in the config file
+  # check https://certbot.eff.org/docs/using.html#configuration-file
+  config:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: webmaster@example.com
+    authenticator: webroot
+    webroot-path: /var/lib/www
+    agree-tos: true
+    keep-until-expiring: true
+    expand: true
+  # For backward compatibility, config can be passed as a string
+  # (although it's discouraged, as this format might be dropped in a future
+  # release)
+  # config: |
+  #   server = https://acme-v01.api.letsencrypt.org/directory
+  #   email = webmaster@example.com
+  #   authenticator = webroot
+  #   webroot-path = /var/lib/www
+  #   agree-tos = True
+  #   keep-until-expiring = True
+  #   expand = True
   config_dir:
     path: /etc/letsencrypt
     user: root
